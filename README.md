@@ -62,7 +62,7 @@ The application provides the following API endpoints:
 - `GET /notes/:id`: Retrieve a specific note by ID.
 - `PUT /notes/:id`: Update a note by ID.
 - `DELETE /notes/:id`: Delete a note by ID.
-- `GET /getNote/:condition Retrieve notes based on the `userid` and `condition` (all, updated, deleted).
+- `GET /getNote/:condition` Retrieve notes based on the `userid` and `condition` (all, updated, deleted).
 
 ### Examples
 
