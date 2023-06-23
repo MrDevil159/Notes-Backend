@@ -1,5 +1,3 @@
-Certainly! Here's an example of a ReadMe.md file for your code:
-
 # Google Notes-like Application
 
 This application is a note-taking app similar to Google Notes. It allows users to create, update, delete, and retrieve notes. Additionally, it provides functionality to view all notes, updated notes, and deleted notes.
