@@ -22,7 +22,7 @@ const getNoteUser = async (req, res) => {
     console.log(userid, condition);
     let notes = [];
     if (condition == "all") {
-      notes = await Note.find({ userid });
+      notes = await Note.find({ userid, delFlag: false });
     } else if (condition == "updated") {
       notes = await Note.find({ userid, updateFlag: true });
     } else if (condition == "deleted") {
