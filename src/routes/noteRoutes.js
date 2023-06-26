@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   createNote,
   delNoteId,
+  forceDeleteId,
   updateNoteId,
   getNoteId,
   getNoteUser,
@@ -10,6 +11,7 @@ const {
 
 router.post("/note/new", createNote);
 router.delete("/note/:id", delNoteId);
+router.delete("/note/forceDelete/:id", forceDeleteId);
 router.put("/note/:id", updateNoteId);
 router.get("/note/:id", getNoteId);
 router.get("/getNote/:condition", getNoteUser);

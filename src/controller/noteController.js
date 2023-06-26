@@ -17,7 +17,7 @@ const createNote = async (req, res) => {
 
 const getNoteUser = async (req, res) => {
   try {
-    const userid = req.body.userid;
+    const userid = req.user._id.toString();
     const condition = req.params.condition;
     console.log(userid, condition);
     let notes = [];
@@ -75,10 +75,22 @@ const delNoteId = async (req, res) => {
     res.status(500).json({ error: "Error deleting the note" });
   }
 };
+const forceDeleteId = async (req, res) => {
+  try {
+    const note = await Note.findByIdAndDelete(req.params.id);
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: "Error deleting the note" });
+  }
+};
 
 module.exports = {
   createNote,
   delNoteId,
+  forceDeleteId,
   updateNoteId,
   getNoteId,
   getNoteUser,
