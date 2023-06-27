@@ -87,9 +87,32 @@ const forceDeleteId = async (req, res) => {
   }
 };
 
+const deleteOldNotes = async () => {
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const notesToDelete = await Note.find({
+      delFlag: true,
+      $or: [
+        { date: { $lt: sevenDaysAgo }, updateFlag: { $ne: true } },
+        { updatedDate: { $lt: sevenDaysAgo }, updateFlag: true },
+      ],
+    });
+    const deletionResult = await Note.deleteMany({
+      _id: { $in: notesToDelete.map((note) => note._id) },
+    });
+    console.log(
+      `${deletionResult.deletedCount} notes have been permanently deleted.`
+    );
+  } catch (error) {
+    console.error("Error deleting old notes:", error);
+  }
+};
+
 module.exports = {
   createNote,
   delNoteId,
+  deleteOldNotes,
   forceDeleteId,
   updateNoteId,
   getNoteId,
