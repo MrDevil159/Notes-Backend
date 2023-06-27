@@ -34,6 +34,7 @@ const noteSchema = new mongoose.Schema({
     updatedDate: {
         type: Date
     }
+
 });
 
 noteSchema.pre("save", function (next) {
