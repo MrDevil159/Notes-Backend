@@ -12,7 +12,7 @@ const {
 
 router.post("/note/new", createNote);
 router.delete("/note/:id", delNoteId);
-router.delete("/note/oldDel", deleteOldNotes);
+router.delete("/noteDel", deleteOldNotes);
 router.delete("/note/forceDelete/:id", forceDeleteId);
 router.put("/note/:id", updateNoteId);
 router.get("/note/:id", getNoteId);

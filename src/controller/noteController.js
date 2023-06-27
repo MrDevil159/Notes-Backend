@@ -68,6 +68,7 @@ const delNoteId = async (req, res) => {
     if (!note) {
       return res.status(404).json({ error: "Note not found" });
     }
+    note.delDate = new Date();
     note.delFlag = true;
     await note.save();
     res.sendStatus(204);
@@ -87,20 +88,28 @@ const forceDeleteId = async (req, res) => {
   }
 };
 
-const deleteOldNotes = async () => {
+const deleteOldNotes = async (req, res) => {
   try {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    console.log(sevenDaysAgo);
     const notesToDelete = await Note.find({
       delFlag: true,
-      $or: [
-        { date: { $lt: sevenDaysAgo }, updateFlag: { $ne: true } },
-        { updatedDate: { $lt: sevenDaysAgo }, updateFlag: true },
-      ],
+      delDate: { $lt: sevenDaysAgo },
     });
+
+    console.log(notesToDelete);
+
+    const noteIdsToDelete = notesToDelete.map((note) => note._id);
+    const validNoteIdsToDelete = noteIdsToDelete.filter(
+      (id) => id instanceof mongoose.Types.ObjectId
+    );
     const deletionResult = await Note.deleteMany({
-      _id: { $in: notesToDelete.map((note) => note._id) },
+      _id: {
+        $in: validNoteIdsToDelete,
+      },
     });
+
     console.log(
       `${deletionResult.deletedCount} notes have been permanently deleted.`
     );

@@ -7,6 +7,7 @@ const noteSchema = new mongoose.Schema({
   userid: { type: mongoose.Schema.Types.ObjectId, required: true },
   updateFlag: { type: Boolean, default: false },
   delFlag: { type: Boolean, default: false },
+  delDate: { type: Date },
   oldDescription: { type: String },
   updatedDate: { type: Date },
 });
