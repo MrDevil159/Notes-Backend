@@ -123,6 +123,3 @@ module.exports = {
   getNoteId,
   getNoteUser,
 };
-
-
-Vishal monkey
