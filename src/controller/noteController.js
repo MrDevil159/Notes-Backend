@@ -72,6 +72,21 @@ const delNoteId = async (req, res) => {
     res.status(500).json({ error: "Error deleting the note" });
   }
 };
+const restoreDeleted = async (req, res) => {
+  try {
+    const note = await Note.findById(req.params.id);
+    if (!note) {
+      return res.status(404).json({ error: "Note not found" });
+    }
+    note.delDate = undefined;
+    note.delFlag = false;
+    await note.updateOne({ $unset: { delDate: 1 }, $set: { delFlag: false } });
+    res.sendStatus(204);
+  } catch (error) {
+    res.status(500).json({ error: "Error restoring the note" });
+  }
+};
+
 const forceDeleteId = async (req, res) => {
   try {
     const note = await Note.findByIdAndDelete(req.params.id);
@@ -115,11 +130,12 @@ const deleteOldNotes = async (req, res) => {
 };
 
 module.exports = {
-    createNote,
-    delNoteId,
-    deleteOldNotes,
-    forceDeleteId,
-    updateNoteId,
-    getNoteId,
-    getNoteUser
+  createNote,
+  delNoteId,
+  deleteOldNotes,
+  forceDeleteId,
+  restoreDeleted,
+  updateNoteId,
+  getNoteId,
+  getNoteUser,
 };
